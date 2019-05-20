@@ -41,20 +41,6 @@ pipeline {
                     }
                 }
 
-                stage("Test on Linux nightly") {
-                    agent {
-                        docker {
-                            image 'amethystrs/builder-linux:nightly'
-                            label 'docker'
-                        }
-                    }
-                    steps {
-                        echo 'Beginning tests...'
-                        sh 'cd rendy && cargo test --all --features "full vulkan"'
-                        echo 'Tests done!'
-                    }
-                }
-
                 stage("Test on macOS Mojave") {
                     agent {
                         label 'mojave'
