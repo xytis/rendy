@@ -21,7 +21,7 @@ use {
         mesh::PosTex,
         resource::{Buffer, BufferInfo, DescriptorSet, DescriptorSetLayout, Escape, Handle},
         shader::{ShaderKind, SourceLanguage, StaticShaderInfo},
-        texture::{Texture, image::ImageTextureConfig},
+        texture::{image::ImageTextureConfig, Texture},
     },
 };
 
@@ -33,7 +33,7 @@ use rendy::mesh::AsVertex;
 
 use winit::{EventsLoop, WindowBuilder};
 
-use std::{io::BufReader, fs::File};
+use std::{fs::File, io::BufReader};
 
 #[cfg(feature = "dx12")]
 type Backend = rendy::dx12::Backend;
@@ -159,14 +159,13 @@ where
             "/examples/sprite/logo.png"
         ))?);
 
-        let texture_builder =
-            rendy::texture::image::load_from_image(
-                image_reader,
-                ImageTextureConfig {
-                    generate_mips: true,
-                    ..Default::default()
-                }
-            )?;
+        let texture_builder = rendy::texture::image::load_from_image(
+            image_reader,
+            ImageTextureConfig {
+                generate_mips: true,
+                ..Default::default()
+            },
+        )?;
 
         let texture = texture_builder
             .build(

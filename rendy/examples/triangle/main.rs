@@ -100,7 +100,9 @@ where
             .gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)];
 
         #[cfg(not(feature = "spirv-reflection"))]
-        return vec![PosColor::vertex().gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)];
+        return vec![
+            PosColor::vertex().gfx_vertex_input_desc(gfx_hal::pso::VertexInputRate::Vertex)
+        ];
     }
 
     fn build<'a>(

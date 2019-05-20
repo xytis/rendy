@@ -18,7 +18,7 @@ use {
         },
         hal::Device as _,
         memory::Dynamic,
-        mesh::{Mesh, PosColorNorm, Model},
+        mesh::{Mesh, Model, PosColorNorm},
         resource::{Buffer, BufferInfo, DescriptorSet, DescriptorSetLayout, Escape, Handle},
         shader::{ShaderKind, SourceLanguage, SpirvShader, StaticShaderInfo},
     },
@@ -347,12 +347,12 @@ where
         #[cfg(not(feature = "spirv-reflection"))]
         let vertex = [PosColorNorm::vertex()];
 
-        aux
-            .scene
+        aux.scene
             .object_mesh
             .as_ref()
             .unwrap()
-            .bind(0, &vertex, &mut encoder).unwrap();
+            .bind(0, &vertex, &mut encoder)
+            .unwrap();
 
         encoder.bind_vertex_buffers(
             1,

@@ -492,7 +492,8 @@ where
         last: impl Into<ImageStateOrLayout>,
         next: ImageState,
     ) {
-        self.uploader.transition_image(image, image_range, last.into(), next);
+        self.uploader
+            .transition_image(image, image_range, last.into(), next);
     }
 
     /// Update image layers content with provided data.
