@@ -10,7 +10,7 @@ use crate::{
     resource::{Buffer, BufferInfo, Escape},
     AsVertex, VertexFormat,
 };
-use rendy_core::hal::adapter::PhysicalDevice;
+use rendy_core::hal::{adapter::PhysicalDevice, buffer::SubRange};
 use std::{borrow::Cow, mem::size_of};
 
 /// Vertex buffer with it's format
@@ -383,7 +383,7 @@ where
     fn get_vertex_iter<'a>(
         &'a self,
         formats: &[VertexFormat],
-    ) -> Result<impl IntoIterator<Item = (&'a B::Buffer, u64)>, Incompatible> {
+    ) -> Result<impl IntoIterator<Item = (&'a B::Buffer, SubRange)>, Incompatible> {
         debug_assert!(is_slice_sorted(formats), "Formats: {:#?}", formats);
         debug_assert!(is_slice_sorted_by_key(&self.vertex_layouts, |l| &l.format));
 
@@ -408,7 +408,9 @@ where
         }
 
         let buffer = self.vertex_buffer.raw();
-        Ok(vertex.into_iter().map(move |offset| (buffer, offset)))
+        Ok(vertex
+            .into_iter()
+            .map(move |offset| (buffer, SubRange { offset, size: None })))
     }
 
     /// Bind buffers to specified attribute locations.
